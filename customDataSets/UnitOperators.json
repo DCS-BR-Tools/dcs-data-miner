@@ -11837,5 +11837,12 @@
     "operators": {
       "ALL": [1950, 2020]
     }
+  },
+  {
+    "type": "atconveyor",
+    "operational": [1970, 2020],
+    "operators": {
+      "ALL": [1970, 2020]
+    }
   }
 ]
