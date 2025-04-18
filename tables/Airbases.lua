@@ -28,7 +28,12 @@ local term_type = {
     [40] = "HelicopterOnly",
     [68] = "HardenedAirShelter",
     [72] = "AirplaneOnly",
+    [100] = "SmallAirplane",
     [104] = "OpenAirSpawn",
+    [176] = "AirplaneOnlyAndOpenAirSpawn",
+    [216] = "AllHelicopterUsable",
+    [244] = "AllAirplaneUsable",
+    [311] = "AllSmallAirplaneUsable",
 }
 
 for k,v in pairs(world.getAirbases()) do
