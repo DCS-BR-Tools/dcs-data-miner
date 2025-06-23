@@ -9561,7 +9561,7 @@
       "China": [2010, 2020]
     }
   },
-  
+
   {
     "type": "Yak-52",
     "operational": [1970, 2020],
@@ -11843,6 +11843,119 @@
     "operational": [1970, 2020],
     "operators": {
       "ALL": [1970, 2020]
+    }
+  },
+  {
+    "type": "GD-20",
+    "operational": [1980, 2020],
+    "operators": {
+      "ALL": [1980, 2020]
+    }
+  },
+  {
+    "type": "PL5EII Loadout",
+    "operational": [1980, 2020],
+    "operators": {
+      "ALL": [1980, 2020]
+    }
+  },
+  {
+    "type": "PL8 Loadout",
+    "operational": [1980, 2020],
+    "operators": {
+      "ALL": [1980, 2020]
+    }
+  },
+  {
+    "type": "SD10 Loadout",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_3_80mm_AA",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_88_75mm_AA",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_89_I_Go",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_94_25mm_AA_Truck",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_94_Truck",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_96_25mm_AA",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_98_Ke_Ni",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "Type_98_So_Da",
+    "operational": [1940, 1950],
+    "operators": {
+      "Japan": [1940, 1950]
+    }
+  },
+  {
+    "type": "F4U-1D",
+    "operational": [1940, 1970],
+    "operators": {
+      "USA": [1940, 1960],
+      "Argentina": [1940, 1960],
+      "France": [1940, 1960],
+      "Honduras": [1940, 1970],
+      "UK": [1940, 1950]
+    }
+  },
+  {
+    "type": "F4U-1D_CW",
+    "operational": [1940, 1970],
+    "operators": {
+      "USA": [1940, 1960],
+      "Argentina": [1940, 1960],
+      "France": [1940, 1960],
+      "Honduras": [1940, 1970],
+      "UK": [1940, 1950]
+    }
+  },
+  {
+    "type": "Essex",
+    "operational": [1940, 1990],
+    "operators": {
+      "USA": [1940, 1990]
     }
   }
 ]

@@ -10,8 +10,8 @@ const arg = require("arg");
 
 const args = arg({
   "--only": String,
-  '--help': Boolean,
-  '-h': '--help',
+  "--help": Boolean,
+  "-h": "--help",
 });
 if (args["--help"]) {
   console.log(`Usage: node seed.js [options]
@@ -66,6 +66,62 @@ const populateCollection =
       );
   };
 
+
+  const extractData = (dcsVersion) =>
+      async (_path) => {
+        console.log(`Processing ${_path}`);
+        const exportScript = readFileSync(_path, "utf-8");
+        const [_, target, env, keyFieldsStr] = exportScript.match(
+          /^.*?(GUI|MISSION):(\w*):?(\w*,?\w*)/
+        );
+        const keyFields = keyFieldsStr.split(",");
+        const name = basename(_path).replace(extname(_path), "");
+        const baseURL = ENVS[target];
+        let response = await axios
+          .post(
+            `rpc`,
+            {
+              jsonrpc: "2.0",
+              method: "ping",
+              params: [exportScript, env],
+              id: "1",
+            },
+            {
+              baseURL,
+              params: { env },
+              maxContentLength: Infinity,
+            }
+          )
+          .catch((e) => {
+            if (e.code === "ECONNREFUSED") {
+              console.info(
+                `Failed to connect to the target environment ${target}:${env} while processing ${_path}, please investigate further using DCS Fiddle`
+              );
+            } else {
+              console.error(e);
+            }
+          });
+        if (response.data && response.data.error) {
+          console.error(data.error.message, data.error.data);
+          data = undefined;
+        }
+        let data = response.data.result;
+        const schemaModulePath = resolve(_path.replace(".lua", ".schema.js"));
+        if (await pathExists(schemaModulePath)) {
+          const schema = require(schemaModulePath);
+          data = schema.cast(data);
+        }
+        return { name, data, keyFields };
+      }
+    
+
+
+
+
+
+
+
+/// RUN -------------------------------------------------------------------
 async function run() {
   console.log("Validating Mongo Connection");
   await mongo.connect();
@@ -98,64 +154,17 @@ async function run() {
     )
     .then((it) => it.data.result);
   console.log("DCS Connection OK");
-
-  console.log("Extracting information from DCS");
-  const collections = await Aigle.mapSeries(
-    await glob(FILES),
-    async (_path) => {
-      console.log(`Processing ${_path}`);
-      const exportScript = readFileSync(_path, "utf-8");
-      const [_, target, env, keyFieldsStr] = exportScript.match(
-        /^.*?(GUI|MISSION):(\w*):?(\w*,?\w*)/
-      );
-      const keyFields = keyFieldsStr.split(",");
-      const name = basename(_path).replace(extname(_path), "");
-      const baseURL = ENVS[target];
-      let response = await axios
-        .post(
-          `rpc`,
-          {
-            jsonrpc: "2.0",
-            method: "ping",
-            params: [exportScript, env],
-            id: "1",
-          },
-          {
-            baseURL,
-            params: { env },
-            maxContentLength: Infinity,
-          }
-        )
-        .catch((e) => {
-          if (e.code === "ECONNREFUSED") {
-            console.info(
-              `Failed to connect to the target environment ${target}:${env} while processing ${_path}, please investigate further using DCS Fiddle`
-            );
-          } else {
-            console.error(e);
-          }
-        });
-      if (response.data && response.data.error) {
-        console.error(data.error.message, data.error.data);
-        data = undefined;
-      }
-      let data = response.data.result;
-      const schemaModulePath = resolve(_path.replace(".lua", ".schema.js"));
-      if (await pathExists(schemaModulePath)) {
-        const schema = require(schemaModulePath);
-        data = schema.cast(data);
-      }
-      return { name, data, keyFields };
-    }
-  );
-
   if (!only || only === "collections") {
+    console.log("Extracting information from DCS");
+    const collections = await Aigle.mapSeries(await glob(FILES), extractData(dcsVersion));
+    console.log("Extracted information from DCS");
+
     console.log("Populating Mission Editor DB");
     await Aigle.eachSeries(collections, populateCollection(dcsVersion));
     console.log("Populated Mission Editor DB");
   }
 
-  if (!only && only === "operators") {
+  if (!only || only === "operators") {
     console.log("Populating Custom File Tables");
     await Aigle.eachSeries(
       [
