@@ -5,7 +5,7 @@ module.exports = {
   FILES: "./tables/{Planes,Cars,Helicopters,Ships,Cargos,Weapons,Fortifications,Templates,ADEquipment,Theatres,Warehouses,Heliports,Layouts}.lua", // Run once per dcs version
   VIEWS: "./views/*.js", // Run once per dcs version
   ENVS: {
-    MISSION: "http://127.0.0.1:12080/",
-    GUI: "http://127.0.0.1:12081/",
+    MISSION: "http://127.0.0.1:1235/",
+    GUI: "http://127.0.0.1:1234/",
   },
 };

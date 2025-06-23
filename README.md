@@ -3,11 +3,7 @@ Project initially created as part of: https://github.com/JonathanTurnock/dcs-mis
 
 This project spins up a local MongoDB using docker and when `seed.js` is run it will mine DCS for data.
 
-You must have DCS Fiddle setup and verified its working before this works as it uses the same HTTP endpoint.
-
-You should confirm that you can connect to the `GUI` env with DCS Running before running this script.
-
-`https://dcsfiddle.pages.dev/`
+It requires the [Pelican RPC communication mod](https://dcs-dropzone.app/#/pelican) to be installed
 
 NOTE: Some exporters also require a mission to be running (i.e. Terrain), these will fail and notify 
 in the console but be aware any conections to the `MISSION` environment WILL fail unless a mission is running.
@@ -74,6 +70,16 @@ Run the script from the data-miner folder
 
 ```shell
 node seed.js 
+```
+
+extra options can be found by using
+```shell
+node seed.js --help
+```
+
+if you need to create views then use
+```shell
+node seed.js --only=views
 ```
 
 Once run the MongoDB will have a new database and tables.
