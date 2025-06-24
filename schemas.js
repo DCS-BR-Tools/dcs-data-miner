@@ -1,4 +1,4 @@
-const { isObject, values } = require("lodash");
+const { isObject, values, isArray } = require("lodash");
 const { array, object } = require("yup");
 
 const zLuaArray = (schema) =>
@@ -7,6 +7,11 @@ const zLuaArray = (schema) =>
     return it;
   });
 
-const zLuaObject = (schema) => object(schema);
+const zLuaObject = (schema) => object(schema).transform((it) => {
+  if(isArray(it) && it.length === 0) {
+    return {};
+  }
+  return it;
+});
 
 module.exports = { zLuaArray, zLuaObject };
