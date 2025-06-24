@@ -1,30 +1,49 @@
+--- MISSION:default:theatre,coords
+
 function isEmptyTable(t)
     return next(t) == nil
 end
 
+local theater = env.mission.theatre
+
 local id = 0
 local debug = false
 
--- Caucasus
--- local x = 53000
--- local xEnd = -425000
--- local zStart = 185000
--- local zEnd = 947000
-
-
--- CW Germany
--- local x = 13000
--- local xEnd = -530000
--- local zStart = -1028000
--- local zEnd = -340000
-
--- Syria
--- local x = 301000
--- local xEnd = -376000
--- local zStart = -424000
--- local zEnd = 420000
-
-local z = zStart -- start x
+local maps = {
+    Caucasus = {
+        x = 53000,
+        xEnd = -425000,
+        zStart = 185000,
+        zEnd = 947000
+    },
+    CWGermany = {
+        x = 13000,
+        xEnd = -530000,
+        zStart = -1028000,
+        zEnd = -340000
+    },
+    Syria = {
+        x = 301000,
+        xEnd = -376000,
+        zStart = -424000,
+        zEnd = 420000
+    },
+    MarianaIslands = {
+        x = 908693,
+        xEnd = -91544,
+        zStart = -61329,
+        zEnd = 138532
+    },
+    MarianaIslandsWWII = {
+        x = 908693,
+        xEnd = -91544,
+        zStart = -61329,
+        zEnd = 138532
+    }
+}
+local map = maps[theater]
+local z = maps[theater].zStart -- start x
+local x = maps[theater].x      -- start z
 
 function markSpot()
     if not debug then return end
@@ -33,9 +52,9 @@ function markSpot()
 end
 
 local locs = {}
-while x > xEnd do
+while x > maps[theater].xEnd do
     markSpot()
-    while z < zEnd do
+    while z < maps[theater].zEnd do
         local coords = { x = x, z = z, y = 0 }
         if not debug and not Disposition.getPointWater(coords, 215, 1) then
             local BRtype = "LandLarge"
@@ -49,13 +68,13 @@ while x > xEnd do
                 z1 = Disposition.getSimpleZones(coords, 500, 10, 1, false)
             end
             for L = 1, #z1 do
-                table.insert(locs, { BRtype = BRtype, coords = { z1[L].x, z1[L].y } })
+                table.insert(locs, { BRtype = BRtype, coords = { z1[L].x, z1[L].y }, theatre = theater })
             end
         end
         z = z + 1000
     end
     markSpot()
-    z = zStart
+    z = maps[theater].zStart
     x = x - 1000
 end
 markSpot()
