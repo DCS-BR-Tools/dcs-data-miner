@@ -8,7 +8,7 @@ local theater = env.mission.theatre
 
 local id = 0
 local debug = false
-
+-- IF UPDATING A MAP DELETE ALL THE OLD POINTS IN THE DATABASE
 local maps = {
     -- Afghanistan = {
     --     x = 100000,
@@ -46,13 +46,13 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    MarianaIslands = {
+    MarianaIslands = { -- Done 26/06/2024
         x = 908693,
         xEnd = -91544,
         zStart = -61329,
         zEnd = 138532
     },
-    MarianaIslandsWWII = {
+    MarianaIslandsWWII = { -- Done 26/06/2024
         x = 908693,
         xEnd = -91544,
         zStart = -61329,
