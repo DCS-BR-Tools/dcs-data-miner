@@ -30,7 +30,7 @@ my_logger:info("Pelican Running...")
 
 local jsonrpc = ____pelican.jsonrpc
 
-local server = jsonrpc.JsonRpcServer.new({ host = "127.0.0.1", port = 1234 })
+local server = jsonrpc.JsonRpcServer.new({ host = "127.0.0.1", port = 1234, timeout = 0 })
 local router = jsonrpc.JsonRpcRouter.new()
 
 router:add_method(

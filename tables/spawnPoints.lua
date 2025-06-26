@@ -10,24 +10,42 @@ local id = 0
 local debug = false
 
 local maps = {
+    -- Afghanistan = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
     Caucasus = {
         x = 53000,
         xEnd = -425000,
         zStart = 185000,
         zEnd = 947000
     },
-    CWGermany = {
+    -- Falklands = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    GermanyCW = {
         x = 13000,
         xEnd = -530000,
         zStart = -1028000,
         zEnd = -340000
     },
-    Syria = {
-        x = 301000,
-        xEnd = -376000,
-        zStart = -424000,
-        zEnd = 420000
-    },
+    -- Iraq = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    -- Kola = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
     MarianaIslands = {
         x = 908693,
         xEnd = -91544,
@@ -39,7 +57,43 @@ local maps = {
         xEnd = -91544,
         zStart = -61329,
         zEnd = 138532
-    }
+    },
+    -- Nevada = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    -- Normandy = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    -- PersianGulf = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    -- SinaiMap = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
+    Syria = {
+        x = 301000,
+        xEnd = -376000,
+        zStart = -424000,
+        zEnd = 420000
+    },
+    -- TheChannel = {
+    --     x = 100000,
+    --     xEnd = -500000,
+    --     zStart = 100000,
+    --     zEnd = 800000
+    -- },
 }
 local map = maps[theater]
 local z = maps[theater].zStart -- start x
