@@ -76,12 +76,12 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    -- SinaiMap = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
+    SinaiMap = {
+        x = 479023,
+        xEnd = -498781,
+        zStart = -183378,
+        zEnd = 558892
+    },
     Syria = { -- Done 28/06/2024
         x = 301000,
         xEnd = -376000,
