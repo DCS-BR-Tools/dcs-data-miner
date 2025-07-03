@@ -5,3 +5,4 @@ dist
 !blankMissions/*.miz
 *.json
 !customDataSets/*.json
+!spawnPointsDump/*.json
