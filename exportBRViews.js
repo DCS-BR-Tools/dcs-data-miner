@@ -29,7 +29,6 @@ const extractMods = {
   BR_units_static_Fortifications_mod: "UnitFortifications",
 };
 
-const extractMapSpawnPoints = ["MarianaIslandsWWII", "MarianaIslands"];
 
 async function run() {
   await mongo.connect();
@@ -58,21 +57,6 @@ async function run() {
       fs.writeFileSync(filePath, JSON.stringify(mod_value, null, 2));
     }
   }
-
-  await Promise.all(extractMapSpawnPoints.map(async (map) => {
-    console.log("Extracting spawn points for map:", map);
-    const cursor = meDb
-      .collection("spawnPoints")
-      .find(
-        { theatre: map },
-        { projection: { _id: 0, theatre: 0, "@created": 0, "@dcsversion": 0 } }
-      );
-    const data = await cursor.toArray();
-    const filePath = `./exports/TheaterSpawnPoints/${map}_Generated.json`;
-    var dirPath = path.dirname(filePath);
-    fs.mkdirSync(dirPath, { recursive: true });
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  }));
   await mongo.close();
 }
 
