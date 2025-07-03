@@ -10,7 +10,7 @@ local id = 0
 local debug = false
 -- IF UPDATING A MAP DELETE ALL THE OLD POINTS IN THE DATABASE
 local maps = {
-    Afghanistan = {
+    Afghanistan = { -- Done 03/07/2024
         x = 241264,
         xEnd = -332518,
         zStart = -399961,
@@ -34,18 +34,18 @@ local maps = {
         zStart = -1028000,
         zEnd = -340000
     },
-    -- Iraq = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
-    -- Kola = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
+    Iraq = { -- Done 03/07/2024
+        x = 419110,
+        xEnd = -948496,
+        zStart = -492867,
+        zEnd = 848496
+    },
+    Kola = { -- Done 03/07/2024
+        x = 419696,
+        xEnd = -314829,
+        zStart = -588360,
+        zEnd = 843023
+    },
     MarianaIslands = { -- Done 28/06/2024
         x = 908693,
         xEnd = -91544,
@@ -76,7 +76,7 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    SinaiMap = {
+    SinaiMap = { -- Done 03/07/2024
         x = 479023,
         xEnd = -498781,
         zStart = -183378,
