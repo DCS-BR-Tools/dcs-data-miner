@@ -4,19 +4,19 @@ function isEmptyTable(t)
     return next(t) == nil
 end
 
-local theater = env.mission.theatre
+local theatre = env.mission.theatre
 
 local id = 0
 local debug = false
 -- IF UPDATING A MAP DELETE ALL THE OLD POINTS IN THE DATABASE
 local maps = {
-    -- Afghanistan = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
-    Caucasus = {
+    Afghanistan = {
+        x = 241264,
+        xEnd = -332518,
+        zStart = -399961,
+        zEnd = 475762
+    },
+    Caucasus = { -- Done 28/06/2024
         x = 53000,
         xEnd = -425000,
         zStart = 185000,
@@ -28,7 +28,7 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    GermanyCW = {
+    GermanyCW = { -- Done 28/06/2024
         x = 13000,
         xEnd = -530000,
         zStart = -1028000,
@@ -46,13 +46,13 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    MarianaIslands = { -- Done 26/06/2024
+    MarianaIslands = { -- Done 28/06/2024
         x = 908693,
         xEnd = -91544,
         zStart = -61329,
         zEnd = 138532
     },
-    MarianaIslandsWWII = { -- Done 26/06/2024
+    MarianaIslandsWWII = { -- Done 28/06/2024
         x = 908693,
         xEnd = -91544,
         zStart = -61329,
@@ -82,7 +82,7 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    Syria = {
+    Syria = { -- Done 28/06/2024
         x = 301000,
         xEnd = -376000,
         zStart = -424000,
@@ -95,9 +95,9 @@ local maps = {
     --     zEnd = 800000
     -- },
 }
-local map = maps[theater]
-local z = maps[theater].zStart -- start x
-local x = maps[theater].x      -- start z
+local map = maps[theatre]
+local z = maps[theatre].zStart -- start x
+local x = maps[theatre].x      -- start z
 
 function markSpot()
     if not debug then return end
@@ -106,9 +106,9 @@ function markSpot()
 end
 
 local locs = {}
-while x > maps[theater].xEnd do
+while x > maps[theatre].xEnd do
     markSpot()
-    while z < maps[theater].zEnd do
+    while z < maps[theatre].zEnd do
         local coords = { x = x, z = z, y = 0 }
         if not debug and not Disposition.getPointWater(coords, 215, 1) then
             local BRtype = "LandLarge"
@@ -122,13 +122,13 @@ while x > maps[theater].xEnd do
                 z1 = Disposition.getSimpleZones(coords, 500, 10, 1, false)
             end
             for L = 1, #z1 do
-                table.insert(locs, { BRtype = BRtype, coords = { z1[L].x, z1[L].y }, theatre = theater })
+                table.insert(locs, { BRtype = BRtype, coords = { z1[L].x, z1[L].y }, theatre = theatre })
             end
         end
         z = z + 1000
     end
     markSpot()
-    z = maps[theater].zStart
+    z = maps[theatre].zStart
     x = x - 1000
 end
 markSpot()

@@ -3,10 +3,12 @@ const { MongoClient } = require("mongodb");
 const { glob } = require("glob");
 const { basename, extname } = require("path");
 const axios = require("axios");
-const { readFileSync, pathExists } = require("fs-extra");
+const { readFileSync, pathExists, remove } = require("fs-extra");
 const { resolve } = require("path");
 const { DB_NAME, MONGO_URL, ENVS, FILES, VIEWS } = require("./config");
 const arg = require("arg");
+const { writeFile } = require("fs/promises");
+const path = require("path");
 
 const args = arg({
   "--only": String,
@@ -41,6 +43,20 @@ const populateCollection =
     const collection = await meDb.collection(name);
     let modifiedCount = 0;
     let upsertedCount = 0;
+    if (name === "spawnPoints") {
+      const theatre = data[0].theatre;
+      const filePath = path.join(
+        __dirname,
+        "spawnPointsDump",
+        `${theatre}.json`
+      );
+      await remove(filePath);
+      await writeFile(filePath, JSON.stringify(data, null, 2));
+      console.log(
+        `Spawn points data dumped to spawnPointsDump/${theatre}.json`
+      );
+      return;
+    }
     await Aigle.eachSeries(data, async (value, _) => {
       try {
         const signed = sign(value, dcsVersion);
@@ -48,7 +64,7 @@ const populateCollection =
           (a, v) => ({ ...a, [v]: signed[v] }),
           {}
         ); //Can add in DCS version here if we want to support multiple versions in the future.
-        // use upsert to avoid duplication when running more than once (Eg more than one theater)
+        // use upsert to avoid duplication when running more than once (Eg more than one theatre)
         const response = await collection.updateOne(
           filter,
           { $set: signed },
@@ -66,60 +82,51 @@ const populateCollection =
       );
   };
 
-
-  const extractData = (dcsVersion) =>
-      async (_path) => {
-        console.log(`Processing ${_path}`);
-        const exportScript = readFileSync(_path, "utf-8");
-        const [_, target, env, keyFieldsStr] = exportScript.match(
-          /^.*?(GUI|MISSION):(\w*):?(\w*,?\w*)/
-        );
-        const keyFields = keyFieldsStr.split(",");
-        const name = basename(_path).replace(extname(_path), "");
-        const baseURL = ENVS[target];
-        let response = await axios
-          .post(
-            `rpc`,
-            {
-              jsonrpc: "2.0",
-              method: "ping",
-              params: [exportScript, env],
-              id: "1",
-            },
-            {
-              baseURL,
-              params: { env },
-              maxContentLength: Infinity,
-            }
-          )
-          .catch((e) => {
-            if (e.code === "ECONNREFUSED") {
-              console.info(
-                `Failed to connect to the target environment ${target}:${env} while processing ${_path}, please investigate further using DCS Fiddle`
-              );
-            } else {
-              console.error(e);
-            }
-          });
-        if (response.data && response.data.error) {
-          console.error(data.error.message, data.error.data);
-          data = undefined;
-        }
-        let data = response.data.result;
-        const schemaModulePath = resolve(_path.replace(".lua", ".schema.js"));
-        if (await pathExists(schemaModulePath)) {
-          const schema = require(schemaModulePath);
-          data = schema.cast(data);
-        }
-        return { name, data, keyFields };
+const extractData = (dcsVersion) => async (_path) => {
+  console.log(`Processing ${_path}`);
+  const exportScript = readFileSync(_path, "utf-8");
+  const [_, target, env, keyFieldsStr] = exportScript.match(
+    /^.*?(GUI|MISSION):(\w*):?(\w*,?\w*)/
+  );
+  const keyFields = keyFieldsStr.split(",");
+  const name = basename(_path).replace(extname(_path), "");
+  const baseURL = ENVS[target];
+  let response = await axios
+    .post(
+      `rpc`,
+      {
+        jsonrpc: "2.0",
+        method: "ping",
+        params: [exportScript, env],
+        id: "1",
+      },
+      {
+        baseURL,
+        params: { env },
+        maxContentLength: Infinity,
       }
-    
-
-
-
-
-
-
+    )
+    .catch((e) => {
+      if (e.code === "ECONNREFUSED") {
+        console.info(
+          `Failed to connect to the target environment ${target}:${env} while processing ${_path}, please investigate further using DCS Fiddle`
+        );
+      } else {
+        console.error(e);
+      }
+    });
+  if (response.data && response.data.error) {
+    console.error(data.error.message, data.error.data);
+    data = undefined;
+  }
+  let data = response.data.result;
+  const schemaModulePath = resolve(_path.replace(".lua", ".schema.js"));
+  if (await pathExists(schemaModulePath)) {
+    const schema = require(schemaModulePath);
+    data = schema.cast(data);
+  }
+  return { name, data, keyFields };
+};
 
 /// RUN -------------------------------------------------------------------
 async function run() {
@@ -156,7 +163,10 @@ async function run() {
   console.log("DCS Connection OK");
   if (!only || only === "collections") {
     console.log("Extracting information from DCS");
-    const collections = await Aigle.mapSeries(await glob(FILES), extractData(dcsVersion));
+    const collections = await Aigle.mapSeries(
+      await glob(FILES),
+      extractData(dcsVersion)
+    );
     console.log("Extracted information from DCS");
 
     console.log("Populating Mission Editor DB");
