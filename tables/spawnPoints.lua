@@ -22,12 +22,12 @@ local maps = {
         zStart = 185000,
         zEnd = 947000
     },
-    -- Falklands = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
+    Falklands = {  -- Done 04/07/2024
+        x = 342234,
+        xEnd = -421635,
+        zStart = -1403914,
+        zEnd = 147806
+    },
     GermanyCW = { -- Done 28/06/2024
         x = 13000,
         xEnd = -530000,
@@ -70,12 +70,12 @@ local maps = {
     --     zStart = 100000,
     --     zEnd = 800000
     -- },
-    -- PersianGulf = {
-    --     x = 100000,
-    --     xEnd = -500000,
-    --     zStart = 100000,
-    --     zEnd = 800000
-    -- },
+    PersianGulf = { -- Done 04/07/2024
+        x = 728050,
+        xEnd = -286974,
+        zStart = -586668,
+        zEnd = 332786
+    },
     SinaiMap = { -- Done 03/07/2024
         x = 479023,
         xEnd = -498781,
