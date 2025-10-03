@@ -24,7 +24,7 @@ for k, v in pairs(units) do
 
         if liveriesData and not (next(liveriesData) == nil)  then
             for lk, lv in ipairs(liveriesData) do
-                table.insert(sub_scheme, lv[2])
+                table.insert(sub_scheme, lv)
             end
             schemes[tostring(cv.WorldID)] = sub_scheme
         end
