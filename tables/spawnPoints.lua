@@ -29,10 +29,10 @@ local maps = {
         zEnd = 147806
     },
     GermanyCW = { -- Done 28/06/2024
-        x = 13000,
-        xEnd = -530000,
+        x = 185000,
+        xEnd = -600000,
         zStart = -1028000,
-        zEnd = -340000
+        zEnd = -320000
     },
     Iraq = { -- Done 03/07/2024
         x = 419110,
